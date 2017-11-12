@@ -190,7 +190,7 @@ I am using SceneBuilder 8.3 from Gluon. It is almost identical to SceneBuilder 2
 You need to tell the IDE where the SceneBuilder JAR or executable is located.
 
 **Eclipse**:
-From the Window menu, choose Preferences. Select JavaFX.  There is a box to input the path to SceneBuilder executable.
+From the Window menu, choose Preferences. Select JavaFX.  In the text box, input the path to the SceneBuilder executable.
 
-**NetBeans**: From the Tools menu, choose Options. Select the "Java" category and click the "JavaFX" tab. There is an input field for SceneBuilder Home (the directory containing SceneBuilder).
+**NetBeans**: From the Tools menu, choose Options. Select the "Java" category and click the "JavaFX" tab. In the "SceneBuilder Home" input field, enter the directory on your system that contains SceneBuilder.
 
