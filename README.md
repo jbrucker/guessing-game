@@ -140,7 +140,7 @@ You can hard-code the text strings into the fxml form, but its less flexible.
 
 The Model class contains the logic for the application.
 In the guessing game, the model is responsible for:
-  * randomly choosing a secret number (1 to an upperBound)
+  * randomly choose a secret number (1 to an upperBound)
   * evaluate the user's guess and return true (correct) or false
   * give hints and messages - the getMessage method
 
@@ -153,7 +153,7 @@ The only logic that belongs in the controller is:
 
 ## Main class - initialize and start the app
 
-The **GameApp** class is a "Main" class that creates initial objects and starts the application.  For GUI apps, "start the application" usually means to display the UI.
+The **GameApp** class is a "Main" class that creates initial objects and starts the application.  For GUI apps, "start the application" means to display the UI.
 
 In JavaFX, the FXMLLoader class creates the controller itself based on info in the UI's fxml file.  So, the main class just initializes JavaFX and tells it what fxml file to display.
 
