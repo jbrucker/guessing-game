@@ -1,0 +1,25 @@
+# binaries and temp files
+*.class
+*.swp
+*.doc
+*.docx
+.~*
+bin/
+build/
+out/
+# Ignore Eclipse project files
+.classpath
+.project
+.settings/
+# Ignore Netbeans project files
+nbproject
+nbbuild/
+nbdist/
+nb-configuration.xml
+# IntelliJ project files
+.idea/
+*.iml
+*.iws
+*.ipr
+# MacOS junk
+.DS_Store
