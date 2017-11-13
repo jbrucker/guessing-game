@@ -33,13 +33,13 @@ public class GameApp extends Application {
 	@Override
 	public void start(Stage stage) {
 		Parent parent;
-        try {
+		try {
         	URL form = this.getClass().getClassLoader().getResource(UI_FORM);
         	if (form == null) {
         		Logger.getLogger("GameApp").log(Level.SEVERE, "Couldn't file FXML form "+UI_FORM);
         		return;
         	}
-            parent = FXMLLoader.load( form );
+        	parent = FXMLLoader.load( form );
         	// another way to use FXMLLoader.
 //        	FXMLLoader loader = new FXMLLoader();
 //        	parent = loader.load(form.openStream());
@@ -50,8 +50,7 @@ public class GameApp extends Application {
         }
         
         Scene scene = new Scene(parent);
-
-        stage.setTitle("Generic Game");
+        stage.setTitle("Guessing Game");
         stage.setScene(scene);
         stage.show();
 	}
