@@ -99,7 +99,7 @@ The UI generates **events** when the user does something.  Clicking a button, pr
 What to do with those events?  Your application has to provides **event handlers** (methods) for UI events your app is interested in.
 Using SceneBuilder, you can specify what *events* should be handled by what *methods* in the controller.  
 
-In the example code, the controller has methods `button1Press` and `button2Press` (you can use any names).  In the GameUI form, it specifies that the "action event" handler for button1 is `button1press` and for button2 it is `button2press`.  Open the GameUI form using *SceneBuilder*, select button1, and open the "Code" toolbox; you will see that the "On Action" event handler for button1 is the `button1Press` method (it also shows what other events are available).  The result is:
+In the example code, the controller has methods `button1Press` and `button2Press` (you can use any names).  In the GameUI form, it specifies that the "On Action" handler for button1 is `button1Press` and for button2 it is `button2Press`.  Open the GameUI form using *SceneBuilder*, select button1, and open the "Code" toolbox; you will see that the "On Action" event handler for button1 is the `button1Press` method (it also shows what other events are available).  The result is:
 
 | Component | Event        | Event Handler in the Controller  |
 |:----------|--------------|:-------------------------------|
@@ -130,15 +130,16 @@ public void button1Press(ActionEvent event) {
 }
 ```
 
-When the user clicks on button1, JavaFX calls our `button1Press` method.  `button1press()` reads the user's input and calls the `game` to evaluate the user's input.
+When the user clicks on button1, JavaFX calls our `button1Press()` method.  `button1press` reads the user's input and calls the `game` to evaluate the user's input.  Then it updates the UI to show the result.
 
 ### Assigning Event Handlers Programmatically (using Java Code)
 
-You can add event handlers using Java code, instead of setting them in the FXML form.  This localizes the event handler logic in the controller (instead of coupling between controller and the form).
+You can add event handlers using Java code, instead of setting them in the FXML form.  This localizes the event handler logic in the controller (instead of coupling between controller and the fxml form).
 
-Each UI component has methods for adding event handlers.  Since we want to set an event handler for the "ActionEvent" type, use the `setOnAction` method:
+Each UI component has methods for adding event handlers.  Since we want to specify an event handler for the "ActionEvent" type, use the `setOnAction` method. In GameController you could write:
+
 ```java
-// Set the handler for a particular event type.
+// Set the handler for On Action events (clicking the button).
 // Syntax:   button.setOnAction( EventHandler<Action> handler )
 button1.setOnAction( this::button1Press );
 ```
@@ -188,6 +189,11 @@ You can extend this game or use the classes to create your own game.  Try this:
    * show a pop-up dialog box asking if he wants to play a new game (JOptionPane.showConfirmDialog or JOptionPane.showOptionDialog).
    * display a question in the game form, and change the labels on button1 and/or button2 for the user's choices (play new game or quit).
 3. Add an "On Action" event handler to the InputField in the UI.  This way, the user can type his answer and press ENTER instead of clicking the "Submit" button.
+   * You can do this either in the FXML form or using code in the `initialize()` method.
+   * To add event handler using code, try:
+   ```java
+   inputField.setOnAction( this::button1Press );
+   ```
 4. Use the example code to write a Quiz Game.  The GameModel class provides the quiz questions and answers.  In the controller, use button2 as a "Next>" button so user can skip to next question.
 5. Add a scoreboard.
 
