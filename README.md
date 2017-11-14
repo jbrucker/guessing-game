@@ -176,11 +176,11 @@ button1.setOnAction( this::button1Press );
 ```
 
 The parameter `this::button1Press` is a [method reference](https://docs.oracle.com/javase/tutorial/java/javaOO/methodreferences.html) --  it refers to the `button1Press` method of `this` object.
-The [Javadoc for Button.setOnAction()](https://docs.oracle.com/javase/8/javafx/api/javafx/scene/control/ButtonBase.html#setOnAction-javafx.event.EventHandler-) tells us that `setOnAction` expects a parameter of type `EventHandler<ActionEvent>` and EventHandler (interface) has a single method with an `ActionEvent` parameter.  So, our method reference (this::button1Press) should be a method with a parameter of type ActionEvent.
+The [Javadoc for Button.setOnAction()](https://docs.oracle.com/javase/8/javafx/api/javafx/scene/control/ButtonBase.html#setOnAction-javafx.event.EventHandler-) tells us that `setOnAction` expects an EventHandler (interface) that has a single method with a parameter of type `ActionEvent` and returns void.  So, our method reference (this::button1Press) should be a method with a parameter of type ActionEvent and returns void.
 
 Each UI component has many events you can choose to "handle".  Most of them have names beginning with **setOn**, such as *setOnAction()* or *setOnKeyTyped()*. 
 
-You can also use the **same method** to handle events from many components.  In most applications, pressing ENTER is the same as clicking the "Submit" button.  In our GuessingGame, we could use the same code handle events from both the InputField (press Enter) and the button1 Button.  For example:
+You can also use the **same method** to handle events from many components.  In most applications, pressing ENTER is the same as clicking the "Submit" button.  In our GuessingGame, we can use the same code to handle events from both the InputField (press Enter) and the button1 Button.  For example:
 
 ```java
 // When user presses Enter in the inputField, do this:
