@@ -37,15 +37,15 @@ The (simple) user interface contains these components:
 
 ![FXML UI](images/fxml-ui.png)
 
-The figure shows the name of each component, which is also its "fx:id" used by JavaFX.  The layout is saved in an FXML file, a kind of XML that JavaFX processes to create the UI.
+The figure shows the name of each component, which is also its "fx:id" used by JavaFX.  You create the UI using *SceneBuilder*, which saves the layout in an FXML file, a kind of XML that JavaFX processes to display the UI.  You can open the FXML file in an editor and see what it looks like.
 
-The components are just Labels, Buttons, and one TextField arranged using a GridLayout, and created in SceneBuilder.
+The components are just Labels, Buttons, and one TextField arranged using a GridLayout.
 
 To edit this file in Eclipse, right click on the file and choose "Open with SceneBuilder".
 
 ## GameController.java
 
-This class handles **events** generated from the View (UI) and updates the UI.  It also initializes the text shown in the UI.
+The controller class handles **events** generated from the View (UI) and updates the UI.  It also initializes the text shown in the UI.
 
 Here is part of the code for the controller:
 ```java
@@ -75,7 +75,7 @@ public class GameController {
 	}
 ```
 
-The attributes annotated with `@FXML` will be automatically set by JavaFX with a reference to a component in the UI with the same name (id).  This is how you connect your graphical components to Java code. Its up to you to assign ids to components (using SceneBuilder) and make sure they *exactly match* the names in the controller class.
+The attributes annotated with `@FXML` will be automatically set by JavaFX with a reference to a component in the UI with the same name (id).  This is how you connect your graphical components to Java code. Its up to you to assign ids to UI components (using SceneBuilder) and make sure they *exactly match* the names in the controller class.
 
 The `initialize()` method initializes the UI.  In the guessing game code, we set the text on labels:
 ```java
@@ -99,7 +99,7 @@ The UI generates **events** when the user does something.  Clicking a button, pr
 What to do with those events?  Your application has to provides **event handlers** (methods) for UI events your app is interested in.
 Using SceneBuilder, you can specify what *events* should be handled by what *methods* in the controller.  
 
-In the example code, the controller has methods `button1Press` and `button2Press` (you can use any names).  If you open the GameUI form in SceneBuilder, select button1, and open the "Code" toolbox, you will see that the "On Action" event handler for button1 is the `button1Press` method.  The result is:
+In the example code, the controller has methods `button1Press` and `button2Press` (you can use any names).  In the GameUI form, it specifies that the "action event" handler for button1 is `button1press` and for button2 it is `button2press`.  Open the GameUI form using *SceneBuilder*, select button1, and open the "Code" toolbox; you will see that the "On Action" event handler for button1 is the `button1Press` method (it also shows what other events are available).  The result is:
 
 | Component | Event        | Event Handler in the Controller  |
 |:----------|--------------|:-------------------------------|
@@ -131,6 +131,23 @@ public void button1Press(ActionEvent event) {
 ```
 
 When the user clicks on button1, JavaFX calls our `button1Press` method.  `button1press()` reads the user's input and calls the `game` to evaluate the user's input.
+
+### Assigning Event Handlers Programmatically (using Java Code)
+
+You can add event handlers using Java code, instead of setting them in the FXML form.  This localizes the event handler logic in the controller (instead of coupling between controller and the form).
+
+Each UI component has methods for adding event handlers.  Since we want to set an event handler for the "ActionEvent" type, use the `setOnAction` method:
+```java
+// Set the handler for a particular event type.
+// Syntax:   button.setOnAction( EventHandler<Action> handler )
+button1.setOnAction( this::button1Press );
+```
+
+The parameter `this:button1Press` is a [method reference](https://docs.oracle.com/javase/tutorial/java/javaOO/methodreferences.html) --  it refers to the `button1Press` method of `this` object.
+The [Javadoc for Button.setOnAction()](https://docs.oracle.com/javase/8/javafx/api/javafx/scene/control/ButtonBase.html#setOnAction-javafx.event.EventHandler-) tells us that `setOnAction` expects a parameter of type `EventHandler<ActionEvent>` and EventHandler (interface) has a single method with an `ActionEvent` parameter.  So, our method reference (this::button1Press) should be a method with a parameter of type ActionEvent.
+
+Each UI component has many events you can "handle" if you want to.  Most of them have names beginning with **setOn**, such as *setOnAction()* or *setOnKeyTyped()*. 
+
 
 ### Initialize Fields in the UI
 
