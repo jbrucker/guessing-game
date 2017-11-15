@@ -19,9 +19,9 @@ And one other class:
 
 ![MVC Diagram](images/mvc-diagram.png)
 
-## Example Game Application Using JavaFX
+## Example Game Using JavaFX
 
-This project contains a sample game that you can customize or extend.  It is general enough that you can modify
+This project contains a sample game that you can customize or extend.  The code is general enough that you can modify
 it to play other games without modifying the UI (View) form.
 
 * **GameUI.fxml** - user interface using JavaFX (written in SceneBuilder)
@@ -45,7 +45,7 @@ To edit this file in Eclipse, right click on the file and choose "Open with Scen
 
 ## GameController.java
 
-The controller class handles **events** generated from the View (UI) and updates the UI.  It also initializes the text shown in the UI.
+The controller handles **events** generated from the View (UI) and updates the UI.  In the example code, it also initializes the text shown in the UI.
 
 Here is part of the code for the controller:
 ```java
@@ -103,8 +103,8 @@ In the example code, the controller has methods `button1Press` and `button2Press
 
 | Component | Event        | Event Handler in the Controller  |
 |:----------|--------------|:-------------------------------|
-| button1   | Action Event | button1Press(ActionEvent evt)  |
-| button2   | Action Event | button2Press(ActionEvent evt)  |
+| button1   | On Action    | button1Press(ActionEvent evt)  |
+| button2   | On Action    | button2Press(ActionEvent evt)  |
 
 Event handler methods should be `public void` and may either have no parameter, or a parameter for the event type.  For Action Events, the parameter type is `ActionEvent`.  In GameController, the method is:
 ```java
@@ -133,11 +133,11 @@ public void button1Press(ActionEvent event) {
 When the user clicks on button1, JavaFX calls our `button1Press()` method.  `button1press` reads the user's input and calls the `game` to evaluate the user's input.  Then it updates the UI to show the result.
 
 
-### Initialize Fields in the UI
+### Initializing Fields in the UI
 
-The controller class (GameController) has a method named `initialize()` annotated with @FXML.  JavaFX calls this method after it creates the UI components. To make the UI more flexible, I set the text shown in the UI buttons and labels using the `initialize()` method.  The `initialize()` method also gets an initial message (hint) from the game and displays it in a label field.
+The controller class (GameController) has a method named `initialize()` annotated with @FXML.  JavaFX calls this method after it creates the UI components. To make the UI easy to modify, I use the `initialize()` method to set the text shown on the UI buttons and labels. `initialize()` also gets an initial message (hint) from the game and displays it in a label field.
 
-You can hard-code the text strings into the fxml form, but its less flexible.
+You can hard-code the text strings into the fxml form, instead of using Java code, but its less flexible.
 
 
 ## GameModel - the Model class
