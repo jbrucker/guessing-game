@@ -37,7 +37,7 @@ The (simple) user interface contains these components:
 
 ![FXML UI](images/fxml-ui.png)
 
-The figure shows the name of each component, which is also its "fx:id" used by JavaFX.  You create the UI using *SceneBuilder*, which saves the layout in an FXML file, a kind of XML that JavaFX processes to display the UI.  You can open the FXML file in an editor and see what it looks like.
+The figure shows the name of each component, which is its "fx:id" used by JavaFX.  You create the UI using *SceneBuilder*, which saves the layout in an FXML file, a kind of XML that JavaFX processes to display the UI.  You can open the FXML file in an editor and see what it looks like.
 
 The components are just Labels, Buttons, and one TextField arranged using a GridLayout.
 
@@ -75,7 +75,7 @@ public class GameController {
 	}
 ```
 
-The attributes annotated with `@FXML` will be automatically set by JavaFX with a reference to a component in the UI with the same name (id).  This is how you connect your graphical components to Java code. Its up to you to assign ids to UI components (using SceneBuilder) and make sure they *exactly match* the names in the controller class.
+The attributes annotated with `@FXML` will be automatically set by JavaFX with a reference to a component in the UI with the same name (id).  This is how you connect your visual components to Java code. Its up to you to assign ids to UI components (using SceneBuilder) and make sure they *exactly match* the names in the controller class.
 
 The `initialize()` method initializes the UI.  In the guessing game code, we set the text on labels:
 ```java
@@ -165,7 +165,7 @@ In good design, the Main class would also create the Model class instance and *i
 
 ## Assigning Event Handlers Programmatically (using Java Code)
 
-You can add event handlers to UI components using Java code, instead of setting them in the FXML form.  This localizes the event handler logic in the controller (instead of coupling between controller and the fxml form).
+You can add event handlers to UI components using Java code, instead of setting them in the FXML form.  This localizes the event handler logic in the controller class (instead of coupling between controller and the fxml form).
 
 Each UI component has methods for adding event handlers.  Since we want to specify an event handler to button1 for the "ActionEvent" type, use the `setOnAction` method. In GameController you can write:
 
@@ -176,18 +176,18 @@ button1.setOnAction( this::button1Press );
 ```
 
 The parameter `this::button1Press` is a [method reference](https://docs.oracle.com/javase/tutorial/java/javaOO/methodreferences.html) --  it refers to the `button1Press` method of `this` object.
-The [Javadoc for Button.setOnAction()](https://docs.oracle.com/javase/8/javafx/api/javafx/scene/control/ButtonBase.html#setOnAction-javafx.event.EventHandler-) tells us that `setOnAction` expects an EventHandler (interface) that has a single method with a parameter of type `ActionEvent` and returns void.  So, our method reference (this::button1Press) should be a method with a parameter of type ActionEvent and returns void.
+The [Javadoc for Button.setOnAction()](https://docs.oracle.com/javase/8/javafx/api/javafx/scene/control/ButtonBase.html#setOnAction-javafx.event.EventHandler-) tells us that `setOnAction` expects an EventHandler (interface) that has a single method with a parameter of type `ActionEvent` and returns void.  So, our method reference (this::button1Press) should be a method with a parameter of type ActionEvent and returns void (code for button1Press shown above).
 
 Each UI component has many events you can choose to "handle".  Most of them have names beginning with **setOn**, such as *setOnAction()* or *setOnKeyTyped()*. 
 
-You can also use the **same method** to handle events from many components.  In most applications, pressing ENTER is the same as clicking the "Submit" button.  In our GuessingGame, we can use the same code to handle events from both the InputField (press Enter) and the button1 Button.  For example:
+You can use the **same method** to handle events from **many** components.  In most applications, pressing ENTER is the same as clicking the "Submit" button.  In our GuessingGame, we can use the same code to handle events from both the InputField (press Enter) and the button1 Button.  For example:
 
 ```java
-// When user presses Enter in the inputField, do this:
+// When user presses Enter in the inputField, its same as clicking button1:
 inputField.setOnAction( this::button1Press );
 ```
 
-If your code needs to determine *which* button or component caused the event, inyour event handler code use `event.getSource()`.
+If your code needs to know *which* button or component caused the event, in your event handler code call `event.getSource()` to get the component that caused the event.
 
 
 ## Exercises
@@ -195,13 +195,13 @@ If your code needs to determine *which* button or component caused the event, in
 You can extend this game or use the classes to create your own game.  Try this:
 
 1. button2 doesn't do anything.  Write code in GameController to handle button2 press and show the secret number.
-2. Add code to GameController to start a new game after the user guesses the secret. Consider two options to implement this:
+2. Add code to GameController to start a new game when the user guesses the secret. Consider two ways to implement this:
    * show a pop-up dialog box asking if he wants to play a new game (JOptionPane.showConfirmDialog or JOptionPane.showOptionDialog).
    * display a question in the game form, and change the labels on button1 and/or button2 for the user's choices (play new game or quit).
 3. Add an "On Action" event handler to the InputField in the UI.  This way, the user can type his answer and press ENTER instead of clicking the "Submit" button.
    * You can do this either in the FXML form or using code in the `initialize()` method.
-4. Use the example code to write a Quiz Game.  The GameModel class provides the quiz questions and answers.  In the controller, use button2 as a "Next>" button so user can skip to next question.
-5. Add a scoreboard.
+4. Use the example code to write a Quiz Game.  In a Quiz, the GameModel class provides the quiz questions and answers.  
+5. Add a scoreboard to the game.
 
 
 ## Getting SceneBuilder
