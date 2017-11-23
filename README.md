@@ -163,6 +163,51 @@ In JavaFX, the FXMLLoader class creates the controller itself based on info in t
 
 In good design, the Main class would also create the Model class instance and *inject* it into the controller.  But in JavaFX this requires more code. For simplicity, we let the GameController create the model (game) itself -- even though its not a great design.
 
+The Main class in JavaFX extends Application and overrides a *callback method* named `start(Stage)`.  When the `main` method calls **launch** (a method in the superclass), it initializes JavaFX and *calls back* to your `start` method.
+
+The GameApp class uses a typical code template, but there are other ways of starting JavaFx.
+
+```java
+public class GameApp extends Application {
+    public static final String START_SCENE = "game/GameUI.fxml";
+
+    /**
+     * This is a call-back method to display initial window using JavaFX.  
+     * @param stage the primary "stage" for showing the scene.
+     */
+    @Override
+    public void start(Stage stage) {
+        Parent parent;
+        try {
+            URL form = this.getClass().getClassLoader().getResource(START_SCENE);
+            if (form == null) {
+                Logger.getLogger("GameApp").log(Level.SEVERE, "Couldn't file FXML form " + START_SCENE);
+                return;
+            }
+            parent = FXMLLoader.load(form);
+
+        } catch (IOException ex) {
+            Logger.getLogger("GameApp").log(Level.SEVERE, "Failed to load form", ex);
+            return;
+        }
+
+        Scene scene = new Scene(parent);
+        stage.setTitle("Guessing Game");
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    public static void main(String[] args) {
+        launch(args);
+    }
+```
+
+There is another way to access the FXMLLoader, which is useful if you want to access the Controller of your scene.
+```java
+    FXMLLoader loader = new FXMLLoader();
+    parent = loader.load(form.openStream());
+```
+
 ## Assigning Event Handlers Programmatically (using Java Code)
 
 You can add event handlers to UI components using Java code, instead of setting them in the FXML form.  This localizes the event handler logic in the controller class (instead of coupling between controller and the fxml form).
@@ -226,3 +271,8 @@ From the Window menu, choose Preferences. Select JavaFX.  In the text box, input
 
 **NetBeans**: From the Tools menu, choose Options. Select the "Java" category and click the "JavaFX" tab. In the "SceneBuilder Home" input field, enter the directory on your system that contains SceneBuilder.
 
+## NullPointerException: Location Must Be Specified
+
+When running JavaFX projects from a command line or JAR file, a common problem is a NullPointerException wth message "Location Must Be Specified".  This may be caused by fxml files not being present in the "build" directory or JAR file.
+
+Check that your fxml files have all been copied to the "build" directory and included in the JAR file.  You can view contents of a JAR file using any ZIP viewer such as WinZip, or `jar -t jarfile.jar`.
