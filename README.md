@@ -165,7 +165,7 @@ In good design, the Main class would also create the Model class instance and *i
 
 The Main class in JavaFX extends Application and overrides a *callback method* named `start(Stage)`.  When the `main` method calls **launch** (a method in the superclass), it initializes JavaFX and *calls back* to your `start` method.
 
-The GameApp class uses a typical code template, but there are other ways of starting JavaFx.
+The GameApp class uses a typical code template, but there are other ways of starting JavaFX.
 
 ```java
 public class GameApp extends Application {
@@ -177,16 +177,12 @@ public class GameApp extends Application {
      */
     @Override
     public void start(Stage stage) {
-        Parent parent;
+        Parent parent = null;
         try {
             URL form = this.getClass().getClassLoader().getResource(START_SCENE);
-            if (form == null) {
-                Logger.getLogger("GameApp").log(Level.SEVERE, "Couldn't file FXML form " + START_SCENE);
-                return;
-            }
             parent = FXMLLoader.load(form);
 
-        } catch (IOException ex) {
+        } catch (Exception ex) {
             Logger.getLogger("GameApp").log(Level.SEVERE, "Failed to load form", ex);
             return;
         }
