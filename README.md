@@ -2,8 +2,10 @@
 
 This is a simple guessing game with a form-based graphical user-interface using JavaFX.
 JavaFX is a set of classes and tools for creating graphical applications.
-The JavaFX classes are included in the Java API and Java Development Kit.
+JavaFX is included in the Java API and Java Development Kit.
 There is a separate visual editor named *SceneBuilder* for creating the user interface. See below for how to get SceneBuilder.
+
+JavaFX defines the UI as a FXML file (a kind of XML) that describes what components are in the UI and how to lay them out.  You use SceneBuilder to design the UI, and SceneBuilder creates the FXML file.  The FXML also has a reference to a *Controller* class that handles events from UI components.  Putting the UI definition in an FXML file (instead of Java code) is similar to the way Android and .Net applications define user interfaces.
 
 ## Overview of GUI App Design
 
@@ -37,7 +39,7 @@ The (simple) user interface contains these components:
 
 ![FXML UI](images/fxml-ui.png)
 
-The figure shows the name of each component, which is its "fx:id" used by JavaFX.  You create the UI using *SceneBuilder*, which saves the layout in an FXML file, a kind of XML that JavaFX processes to display the UI.  You can open the FXML file in an editor and see what it looks like.
+The figure shows the name of each component, which is its "fx:id" used by JavaFX.  You create the UI using *SceneBuilder*, which saves the layout in an FXML file, a kind of XML that JavaFX processes to create the UI.  You can open the FXML file in an editor and see what it looks like.
 
 The components are just Labels, Buttons, and one TextField arranged using a GridLayout.
 
