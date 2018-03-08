@@ -64,7 +64,7 @@ public class GameController {
 	Button button1;       // usually the submit button
 	@FXML
 	Button button2;       // clear, quit, or cancel button
-	/** Reference to the game (model) we are playing. */
+	/** Reference to the game we are playing. */
 	private GameModel game;
 
 	@FXML
@@ -250,15 +250,14 @@ You can extend this game or use the classes to create your own game.  Try this:
 ## Getting SceneBuilder
 
 SceneBuilder is a graphical tool for creating JavaFX interfaces.
-Oracle has stopped distributing new versions of SceneBuilder, but it is still being developed.
-There are two versions available:
+The current version of SceneBuilder is distributed by Gluon, and is the suggested version.   On GluonHQ you can download SceneBuilder as single JAR or as a package for your OS.  Either one will work with Eclipse.
 
-* [SceneBuilder 8.x from Gluon](http://gluonhq.com/products/scene-builder/) compiled from the most recent source code. There are 2 distributions:
-  * [SceneBuilder Executable Jar](http://gluonhq.com/products/scene-builder/) contains only SceneBuilder and runs directly on your JRE.
-  * [SceneBuilder Native App](http://gluonhq.com/products/scene-builder/) for Windows, Mac OSX, Linux, includes SceneBuilder, a launcher, and JRE.  Kind of a waste, since you already have a JRE.
-* [SceneBuilder 2.0 from Oracle](http://www.oracle.com/technetwork/java/javafxscenebuilder-1x-archive-2199384.html) the last version from Oracle.
+* [SceneBuilder 8.x from Gluon](http://gluonhq.com/products/scene-builder/) the current version. There are 2 distributions:
+  * SceneBuilder Executable Jar - single JAR contains only SceneBuilder and runs directly on your JRE.
+  * SceneBuilder Native App - for Windows, Mac OSX, Linux, includes SceneBuilder, launcher, and JRE.  The JRE is unnecessary extra space, since you already have a JRE (part of the JDK).
+* [Old SceneBuilder 2.0 from Oracle](http://www.oracle.com/technetwork/java/javafxscenebuilder-1x-archive-2199384.html) the last version from Oracle.
 
-I am using SceneBuilder 8.3 from Gluon. It is almost identical to SceneBuilder 2.0 and integrates well with Eclipse and Netbeans (haven't tried IntelliJ).
+I am using SceneBuilder 8.4 from Gluon. It is almost identical to SceneBuilder 2.0 and integrates well with Eclipse and Netbeans (haven't tried IntelliJ).
 
 ### Configure SceneBuilder in your IDE
 
@@ -274,3 +273,5 @@ From the Window menu, choose Preferences. Select JavaFX.  In the text box, input
 When running JavaFX projects from a command line or JAR file, a common problem is a NullPointerException wth message "Location Must Be Specified".  This may be caused by fxml files not being present in the "build" directory or JAR file.
 
 Check that your fxml files have all been copied to the "build" directory and included in the JAR file.  You can view contents of a JAR file using any ZIP viewer such as WinZip, or `jar -t jarfile.jar`.
+
+The IDE *should* copy your .fxml files from the `src/` directory to the build directory, but sometimes it does not.  When you create a JAR file, verify in the dialogs that the IDE includes .fxml files in the JAR, too.

@@ -32,22 +32,27 @@ public class GameApp extends Application {
 	 */
 	@Override
 	public void start(Stage stage) {
-		Parent parent;
-		try {
+		Parent parent = null;
+//		try {
 			URL form = this.getClass().getClassLoader().getResource(UI_FORM);
 			if (form == null) {
 				Logger.getLogger("GameApp").log(Level.SEVERE, "Couldn't file FXML form " + UI_FORM);
 				return;
 			}
-			parent = FXMLLoader.load(form);
+			try {
+				parent = FXMLLoader.load(form);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			// another way to use FXMLLoader.
 			// FXMLLoader loader = new FXMLLoader();
 			// parent = loader.load(form.openStream());
 
-		} catch (IOException ex) {
-			Logger.getLogger("GameApp").log(Level.SEVERE, "Failed to load form", ex);
-			return;
-		}
+//		} catch (IOException ex) {
+//			Logger.getLogger("GameApp").log(Level.SEVERE, "Failed to load form", ex);
+//			return;
+//		}
 
 		Scene scene = new Scene(parent);
 		stage.setTitle("Guessing Game");

@@ -1,5 +1,8 @@
 package game;
 
+import javax.swing.JOptionPane;
+
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventType;
 import javafx.fxml.FXML;
@@ -78,7 +81,9 @@ public class GameController {
 	 */
 	public void button1Press(ActionEvent event) {
 		// for testing
-		System.out.println("Button1 pressed");
+		//System.out.println("Button1 pressed");
+		Button b = (Button)event.getSource();
+		System.out.println("pressed " + b.getText() );
 		statusMessage.setText("");
 		
 		// what to do depends on your game
@@ -99,6 +104,18 @@ public class GameController {
 		
 		// game is over. What to do now?
 		inputField.setDisable(true);  // disable input
+		
+		int reply = JOptionPane.showConfirmDialog(null, 
+				"Right! You guessed the secret number.\nPlay again?", 
+				"Play A Guessing Game",
+				JOptionPane.YES_NO_OPTION);
+		if (reply != JOptionPane.YES_OPTION) Platform.exit();
+		
+		// create a new game and get hint
+		int upperBound = 2 * game.getUpperBound();
+		game = new GameModel(upperBound);
+		inputField.setDisable(false);
+		initialize();
 		
 	}
 	

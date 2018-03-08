@@ -77,4 +77,12 @@ public class GameModel {
 		message = "Right! You guessed it.";
 		return true;
 	}
+	
+	/**
+	 * Get the upper bound for the secret.
+	 * @return the upperbound on secret number
+	 */
+	public int getUpperBound() {
+		return upperBound;
+	}
 }
