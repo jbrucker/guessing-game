@@ -5,7 +5,9 @@ JavaFX is a set of classes and tools for creating graphical applications.
 JavaFX is included in the Java API and Java Development Kit.
 There is a separate visual editor named *SceneBuilder* for creating the user interface. See below for how to get SceneBuilder.
 
-JavaFX defines the UI as a FXML file (a kind of XML) that describes what components are in the UI and how to lay them out.  You use SceneBuilder to design the UI, and SceneBuilder creates the FXML file.  The FXML also has a reference to a *Controller* class that handles events from UI components.  Putting the UI definition in an FXML file (instead of Java code) is similar to the way Android and .Net applications define user interfaces.
+JavaFX defines the UI as a FXML file (a kind of XML) that describes what components are in the UI and how to lay them out.  You can also create or modify the JavaFX UI using Java code, which is useful in some apps. 
+
+To visually layout the UI and set properties, there is visual editor named *SceneBuilder* that you install separately. SceneBuilder integrates with most IDE (Eclipse, Netbeans, IntelliJ).  When you use SceneBuilder to design a UI, SceneBuilder saves (or reads) the layout as an FXML file.  The FXML file also has a reference to a *Controller* class that handles events from UI components.  Putting the UI definition in an FXML file (instead of Java code) is similar to the way Android and .Net applications define user interfaces.
 
 ## Overview of GUI App Design
 
@@ -17,14 +19,14 @@ Applications with a graphical user interface (GUI) divide the code into these co
 
 And one other class:
 
-* **Application** class or **Main** class that starts the application.  It creates initial objects for model, view, and controller, and connects them as needed. Its usually very short.
+* **Application** class or **Main** class that starts the application.  It creates initial objects for model, view, and controller, connects them as needed, and starts the UI. Its usually very short.
 
 ![MVC Diagram](images/mvc-diagram.png)
 
 ## Example Game Using JavaFX
 
 This project contains a sample game that you can customize or extend.  The code is general enough that you can modify
-it to play other games without modifying the UI (View) form.
+it to play other games without modifying the UI (View) much.
 
 * **GameUI.fxml** - user interface using JavaFX (written in SceneBuilder)
 * **GameController.java** - controller handles events from UI and updates the UI
@@ -39,11 +41,11 @@ The (simple) user interface contains these components:
 
 ![FXML UI](images/fxml-ui.png)
 
-The figure shows the name of each component, which is its "fx:id" used by JavaFX.  You create the UI using *SceneBuilder*, which saves the layout in an FXML file, a kind of XML that JavaFX processes to create the UI.  You can open the FXML file in an editor and see what it looks like.
+The figure shows the name of each component, which is its "fx:id" used by JavaFX.  You can view or modify this UI using *SceneBuilder*.  
 
-The components are just Labels, Buttons, and one TextField arranged using a GridLayout.
+The components are just Labels, Buttons, and one TextField arranged using a GridLayout.  Each component has a few properties set, such as its "fx:id" and text alignment.
 
-To edit this file in Eclipse, right click on the file and choose "Open with SceneBuilder".
+To edit this file in Eclipse, right click on the file and choose "Open with SceneBuilder". You can also open the FXML file in a plain text editor and see what it looks like.
 
 ## GameController.java
 
@@ -77,7 +79,9 @@ public class GameController {
 	}
 ```
 
-The attributes annotated with `@FXML` will be automatically set by JavaFX with a reference to a component in the UI with the same name (id).  This is how you connect your visual components to Java code. Its up to you to assign ids to UI components (using SceneBuilder) and make sure they *exactly match* the names in the controller class.
+The attributes annotated with `@FXML` are used to connect the attributes to UI components in the FXML file.  JavaFX will set each attributes with a reference to the UI component with the same name (fx:id).  This is how you connect your visual components to Java code. Its up to you to assign ids to UI components (using SceneBuilder) and make sure they *exactly match* the names in the controller class.
+
+*Hint:* When coding, define variables for the UI components in the controller first, annotated with `@FXML`.  Then when you edit the UI in SceneBuilder, SceneBuilder will populate the drop-down fx:id boxes with the names it read from the controller.  This avoids typing errors.
 
 The `initialize()` method initializes the UI.  In the guessing game code, we set the text on labels:
 ```java
@@ -93,6 +97,8 @@ public void initialize() {
 JavaFX automatically calls `initialize()` when it creates the controller and UI.  After that, the UI will look like this:
 
 ![UI Initialized](images/ui-with-init.png)
+
+*Note:* The `initialize()` method must be annotated with `\@FXML` in order for JavaFX to automatically invoke it.
 
 ### Handling Events from the View (UI)
 
@@ -121,6 +127,7 @@ public void button1Press(ActionEvent event) {
     statusMessage.setText(""); // clear old message
     boolean ok = game.guess(input);
     if (ok) {
+        // user guessed the secret value
         topMessage.setText("Right!");
     }
     else {
@@ -132,7 +139,7 @@ public void button1Press(ActionEvent event) {
 }
 ```
 
-When the user clicks on button1, JavaFX calls our `button1Press()` method.  `button1press` reads the user's input and calls the `game` to evaluate the user's input.  Then it updates the UI to show the result.
+When the user clicks on button1, JavaFX calls our `button1Press()` method.  `button1Press` reads the user's input and calls the `game` to evaluate the user's input.  Then it updates the UI to show the result.
 
 
 ### Initializing Fields in the UI
@@ -140,6 +147,8 @@ When the user clicks on button1, JavaFX calls our `button1Press()` method.  `but
 The controller class (GameController) has a method named `initialize()` annotated with @FXML.  JavaFX calls this method after it creates the UI components. To make the UI easy to modify, I use the `initialize()` method to set the text shown on the UI buttons and labels. `initialize()` also gets an initial message (hint) from the game and displays it in a label field.
 
 You can hard-code the text strings into the fxml form, instead of using Java code, but its less flexible.
+
+You can also assign event handlers in `initialize()` instead of specifying them in the UI (FXML file).  See the section below "Assigning Event Handlers Programmatically" for how to.
 
 
 ## GameModel - the Model class
@@ -208,9 +217,9 @@ There is another way to access the FXMLLoader, which is useful if you want to ac
 
 ## Assigning Event Handlers Programmatically (using Java Code)
 
-You can add event handlers to UI components using Java code, instead of setting them in the FXML form.  This localizes the event handler logic in the controller class (instead of coupling between controller and the fxml form).
+You can add event handlers to UI components using Java code, instead of setting them in the FXML form.  This localizes the event handler logic in the controller class (instead of coupling between controller and the fxml form), and enables refactoring.
 
-Each UI component has methods for adding event handlers.  Since we want to specify an event handler to button1 for the "ActionEvent" type, use the `setOnAction` method. In GameController you can write:
+Each UI component has methods for adding event handlers.  To specify an event handler for `button1` for the "ActionEvent" type, use the `setOnAction` method. In GameController you can write:
 
 ```java
 // Set the handler for On Action events (clicking the button).
@@ -223,14 +232,14 @@ The [Javadoc for Button.setOnAction()](https://docs.oracle.com/javase/8/javafx/a
 
 Each UI component has many events you can choose to "handle".  Most of them have names beginning with **setOn**, such as *setOnAction()* or *setOnKeyTyped()*. 
 
-You can use the **same method** to handle events from **many** components.  In most applications, pressing ENTER is the same as clicking the "Submit" button.  In our GuessingGame, we can use the same code to handle events from both the InputField (press Enter) and the button1 Button.  For example:
+You can use the **same method** to handle events from **many** components.  In most applications, pressing ENTER is the same as clicking the "Submit" button.  In our GuessingGame, we can use the same code to handle events from both the InputField and the button1 Button.  For example:
 
 ```java
 // When user presses Enter in the inputField, its same as clicking button1:
 inputField.setOnAction( this::button1Press );
 ```
 
-If your code needs to know *which* button or component caused the event, in your event handler code call `event.getSource()` to get the component that caused the event.
+If your code needs to know *which* button or component caused the event, in your event handler code call `event.getSource()` to get the component that caused the event. 
 
 
 ## Exercises
@@ -239,7 +248,7 @@ You can extend this game or use the classes to create your own game.  Try this:
 
 1. button2 doesn't do anything.  Write code in GameController to handle button2 press and show the secret number.
 2. Add code to GameController to start a new game when the user guesses the secret. Consider two ways to implement this:
-   * show a pop-up dialog box asking if he wants to play a new game (JOptionPane.showConfirmDialog or JOptionPane.showOptionDialog).
+   * show a pop-up dialog box asking if he wants to play a new game.
    * display a question in the game form, and change the labels on button1 and/or button2 for the user's choices (play new game or quit).
 3. Add an "On Action" event handler to the InputField in the UI.  This way, the user can type his answer and press ENTER instead of clicking the "Submit" button.
    * You can do this either in the FXML form or using code in the `initialize()` method.
