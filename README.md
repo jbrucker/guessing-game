@@ -3,18 +3,17 @@
 This is a simple guessing game with a form-based graphical user-interface using JavaFX.
 JavaFX is a set of classes and tools for creating graphical applications.
 JavaFX is included in the Java API and Java Development Kit.
-There is a separate visual editor named *SceneBuilder* for creating the user interface. See below for how to get SceneBuilder.
 
 JavaFX defines the UI as a FXML file (a kind of XML) that describes what components are in the UI and how to lay them out.  You can also create or modify the JavaFX UI using Java code, which is useful in some apps. 
 
-To visually layout the UI and set properties, there is visual editor named *SceneBuilder* that you install separately. SceneBuilder integrates with most IDE (Eclipse, Netbeans, IntelliJ).  When you use SceneBuilder to design a UI, SceneBuilder saves (or reads) the layout as an FXML file.  The FXML file also has a reference to a *Controller* class that handles events from UI components.  Putting the UI definition in an FXML file (instead of Java code) is similar to the way Android and .Net applications define user interfaces.
+To visually layout the UI and set properties, use a visual editor named *SceneBuilder* that you must install separately. SceneBuilder integrates with most IDE (Eclipse, Netbeans, IntelliJ).  When you use SceneBuilder to design a UI, SceneBuilder saves the layout as an FXML file.  The FXML file also has a reference to a *Controller* class that handles events from UI components.  Putting the UI definition in an FXML file (instead of Java code) is similar to the way Android and .Net applications define user interfaces.
 
 ## Overview of GUI App Design
 
-Applications with a graphical user interface (GUI) divide the code into these components, based on functionality:
+Applications with a graphical user interface (GUI) divide the code into components, based on functionality:
 
 * **User Interface** or **View** contains visual components, layout, and formatting of the UI.
-* **Controller** handle events from the View, updates the View, and acts as a bridge between the View and the Model.
+* **Controller** handles events from the View, updates the View, and acts as a bridge between the View and the Model.
 * **Model** contains the logic and code for the application.  It usually has no knowledge of the View and Controller, but responds to requests (method calls) from them.  The Model typically consists of many classes and may itself be divided into components or layers.
 
 And one other class:
@@ -37,13 +36,13 @@ Each component is explained below.
 
 ## GameUI.fxml - user interface in JavaFX
 
-The (simple) user interface contains these components:
+The simple user interface contains these components:
 
 ![FXML UI](images/fxml-ui.png)
 
 The figure shows the name of each component, which is its "fx:id" used by JavaFX.  You can view or modify this UI using *SceneBuilder*.  
 
-The components are just Labels, Buttons, and one TextField arranged using a GridLayout.  Each component has a few properties set, such as its "fx:id" and text alignment.
+The components are Labels, Buttons, and one TextField arranged using a GridLayout.  Each component has a few properties set, such as its "fx:id" and text alignment.
 
 To edit this file in Eclipse, right click on the file and choose "Open with SceneBuilder". You can also open the FXML file in a plain text editor and see what it looks like.
 
@@ -79,9 +78,11 @@ public class GameController {
 	}
 ```
 
-The attributes annotated with `@FXML` are used to connect the attributes to UI components in the FXML file.  JavaFX will set each attributes with a reference to the UI component with the same name (fx:id).  This is how you connect your visual components to Java code. Its up to you to assign ids to UI components (using SceneBuilder) and make sure they *exactly match* the names in the controller class.
+The attributes annotated with `\@FXML` are used to connect UI components in the FXML file to object references in the controller. 
 
-*Hint:* When coding, define variables for the UI components in the controller first, annotated with `@FXML`.  Then when you edit the UI in SceneBuilder, SceneBuilder will populate the drop-down fx:id boxes with the names it read from the controller.  This avoids typing errors.
+JavaFX will create the UI components and set each attribute with a `@FXML` tag to reference the UI component with the same fx:id.  This is how you connect your visual components to Java code. Its up to you to assign ids to UI components (using SceneBuilder) and make sure they *exactly match* the names in the controller class.
+
+*Hint:* When coding, define variables for the UI components in the controller first, annotated with `@FXML`.  Then when you edit the UI in SceneBuilder *and* specify the name of your controller class, SceneBuilder will populate the drop-down fx:id boxes with the names it read from the controller.  This avoids typing errors.
 
 The `initialize()` method initializes the UI.  In the guessing game code, we set the text on labels:
 ```java
